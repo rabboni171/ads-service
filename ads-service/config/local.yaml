@@ -1,0 +1,8 @@
+cfg_type: local
+pg_url: postgres://postgres:postgres@localhost:5432/ads-service?sslmode=disable
+migrations_dir: file://migrations
+http_server_address: 0.0.0.0:8080
+auth_grpc:
+  address: localhost:44044
+  secret_key: secret123
+  app_id: 1

@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+
+  ad-server:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - ads-network
+      - service
+
+  postgres:
+    image: postgres:16.3                
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ads-service
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - service
+
+volumes:
+  pgdata:
+
+networks:
+  ads-network:
+    external: true
+  service:
+

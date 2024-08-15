@@ -1,0 +1,191 @@
+definitions:
+  models.Ad:
+    properties:
+      description:
+        type: string
+      photos:
+        items:
+          type: string
+        type: array
+      price:
+        type: integer
+      title:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /ad/{id}:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: ID объявления
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Ad'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Получение одного объявления
+      tags:
+      - ads
+  /ad/all/:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: Номер страницы
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: Сортировка по цене (asc, desc)
+        in: query
+        name: price
+        type: string
+      - description: Сортировка по дате (asc, desc)
+        in: query
+        name: date
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Ad'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Получение страницы объявлений
+      tags:
+      - ads
+  /ad/create/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Объявление
+        in: body
+        name: ad
+        required: true
+        schema:
+          $ref: '#/definitions/models.Ad'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: int
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Создание объявления
+      tags:
+      - ads
+  /user/login/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Почта и пароль пользователя
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: token
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Аутентификация пользователя
+      tags:
+      - auth
+  /user/register/:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Почта и пароль пользователя
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: id
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Регистрация пользователя
+      tags:
+      - auth
+swagger: "2.0"
