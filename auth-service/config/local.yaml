@@ -1,0 +1,7 @@
+env: "local"
+token_ttl: 1h
+pg_url: postgres://postgres:postgres@localhost:5433/auth-service?sslmode=disable
+migrations_path: "./migrations"
+grpc:
+  port: 44044
+  timeout: 10h

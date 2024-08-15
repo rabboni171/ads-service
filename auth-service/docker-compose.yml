@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+
+  grpc-server:
+    build: .
+    ports:
+      - "44044:44044"
+    depends_on:
+      - postgres
+    restart: always
+    networks:
+      - ads-network
+      - service
+
+  postgres:
+    image: postgres:16.3
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=auth-service
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - service
+
+volumes:
+  pgdata:
+
+networks:
+  ads-network:
+    external: true
+  service:

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+// Текущий пакет - указывает пространство имен для сервиса и сообщений. 
+// Помогает избегать конфликтов имен.
+package auth;
+
+// Настройки для генерации Go кода.
+option go_package = "auth.v1;authv1";
+
+// Сервис для управления ролями и правами.
+service Auth {
+  // регистрация нового пользователя.
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  // выполняет вход пользователя в систему и возвращает токен
+  // для авторизации и аутентификации
+  rpc Login (LoginRequest) returns (LoginResponse);
+}
+
+// service Permissions {
+//    GetUserPermissions(GetUserPermissionsRequest) return UserPermissions
+// }
+
+// Объект, который отправляется при вызове RPC-метода (ручки) Register.
+message RegisterRequest {
+  string email = 1; // Email of the user to register.
+  string password = 2; // Password of the user to register.
+}
+
+// Объект, который метод (ручка) вернёт.
+message RegisterResponse {
+  int64 user_id = 1; // User ID of the registered user.
+}
+
+// То же самое для метода Login()
+message LoginRequest {
+  string email = 1; // Email of the user to login.
+  string password = 2; // Password of the user to login.
+  int32 app_id = 3; // ID of the app to login to.
+}
+
+message LoginResponse {
+  string token = 1; // Auth token of the logged in user.
+}
